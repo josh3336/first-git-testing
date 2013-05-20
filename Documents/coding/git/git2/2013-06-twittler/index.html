@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <script src="jquery.js"></script>
+    <script src="data_generator.js"></script>
+  </head>
+  <body>
+    <script>
+      var previous=11
+      $(document).ready(function(){
+
+        var $body = $('body');
+        var $html= $('html')
+        $body.html('');
+
+        var $nav = $('<nav>')
+        $nav.html('');
+        $nav.appendTo($html);
+
+
+
+        var $button=$('<button class="New_Tweets">New Tweets</button>')
+
+        var index = streams.home.length - 1;
+        while(index >= 0){
+          var tweet = streams.home[index];
+          var $tweet = $('<div id='+tweet.user+'></div>');
+          $tweet.text('@' + tweet.user + ': ' + tweet.message+" "+tweet.created_at);
+          $tweet.appendTo($body);
+          index -= 1;
+  
+
+        }
+
+    $button.appendTo($('nav'));
+
+      $('button').on('click',function(){
+        if(streams.home.length!=previous){
+          var newlength=streams.home.length-1
+          var count=previous
+          while(count <= newlength){
+            var tweet = streams.home[count];
+            var $tweet = $('<div id='+tweet.user+'></div>');
+            $tweet.text('@' +tweet.user + ': ' + tweet.message+" "+tweet.created_at);
+            $tweet.prependTo($body);
+            count += 1;
+          }
+          previous=newlength+1
+        $('h1').remove()
+        $('p').remove()
+        $('div').hide()
+        $('div').show()
+        $(this).text("New Tweets")
+        }
+
+
+      });
+
+
+
+
+      $('div').on('click',function(){
+        $('h1').remove()
+        $('p').remove()
+        $('div').hide()
+        $('button').text('Go Back Now')
+        name_clicked=$(this).attr('id')
+        //alert(name_clicked)
+        // for(key in streams.users.shawndrost){
+        //   alert(streams.users.shawndrost[key].message)
+        // }
+        var $heading=$('<h1>Tweets for '+name_clicked+'</h1>');
+        $heading.appendTo($body)
+        for(var key in streams.users[name_clicked]){
+          var $tweet = $('<p id='+name_clicked+'></p>');
+          $tweet.text('@' + name_clicked + ': ' + streams.users[name_clicked][key].message+" "+streams.users[name_clicked][key].created_at);
+          $tweet.appendTo($body);
+          //alert(streams.users[name_clicked][key].message)
+        }
+
+      });
+      // $('div').on('click',function(){
+      //   alert($(this).closest($('head')).text())
+      // })
+
+});
+
+
+    </script>
+  </body>
+</html>
